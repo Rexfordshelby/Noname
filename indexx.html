@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Section App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+        }
+        header {
+            background-color: #6a0dad;
+            padding: 1em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        main {
+            padding: 2em;
+        }
+        .hidden {
+            display: none;
+        }
+        form, .choice, .filter-options {
+            max-width: 400px;
+            margin: 2em auto;
+            background-color: #1e1e1e;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        form h2, .filter-options h2 {
+            margin-bottom: 1em;
+            color: #6a0dad;
+        }
+        form label, .filter-options label {
+            display: block;
+            margin-bottom: 0.5em;
+            color: #ccc;
+            text-align: left;
+        }
+        form input, .filter-options input, .filter-options select {
+            width: 100%;
+            padding: 0.8em;
+            margin-bottom: 1em;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #2e2e2e;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        form button, .choice button, .filter-options button {
+            padding: 1em;
+            width: 100%;
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        form button:hover, .choice button:hover, .filter-options button:hover {
+            background-color: #4b0082;
+            transform: scale(1.05);
+        }
+        .choice {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="main-header">Welcome to Your App</h1>
+    </header>
+    <main>
+        <!-- Home Section -->
+        <section id="home-section">
+            <nav>
+                <button onclick="showSection('signin-section')">Sign In</button>
+                <button onclick="showSection('signup-section')">Sign Up</button>
+            </nav>
+        </section>
+        <!-- Sign In Section -->
+        <section id="signin-section" class="hidden">
+            <form onsubmit="event.preventDefault(); showSection('role-section');">
+                <h2>Sign In</h2>
+                <label for="signin-email">Email:</label>
+                <input type="email" id="signin-email" name="email" required>
+                <label for="signin-password">Password:</label>
+                <input type="password" id="signin-password" name="password" required>
+                <button type="submit">Sign In</button>
+            </form>
+        </section>
+        <!-- Sign Up Section -->
+        <section id="signup-section" class="hidden">
+            <form onsubmit="event.preventDefault(); showSection('role-section');">
+                <h2>Sign Up</h2>
+                <label for="signup-email">Email:</label>
+                <input type="email" id="signup-email" name="email" required>
+                <label for="signup-password">Password:</label>
+                <input type="password" id="signup-password" name="password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </section>
+        <!-- Role Section -->
+        <section id="role-section" class="hidden">
+            <h2>Are you a Chef or a Customer?</h2>
+            <div class="choice">
+                <button onclick="showSection('chef-signup-section')">Chef</button>
+                <button onclick="showSection('customer-find-chef-section')">Customer</button>
+            </div>
+        </section>
+        <!-- Chef Sign Up Section -->
+        <section id="chef-signup-section" class="hidden">
+            <form>
+                <h2>Chef Sign Up</h2>
+                <label for="chef-name">Name:</label>
+                <input type="text" id="chef-name" name="name" required>
+                <label for="chef-bestFood">Best Food:</label>
+                <input type="text" id="chef-bestFood" name="bestFood" required>
+                <label for="chef-expertFood">Food Expertise:</label>
+                <input type="text" id="chef-expertFood" name="expertFood" required>
+                <label for="chef-hourlyRate">Hourly Rate:</label>
+                <input type="number" id="chef-hourlyRate" name="hourlyRate" required>
+                <label for="chef-contactInfo">Contact Information:</label>
+                <input type="text" id="chef-contactInfo" name="contactInfo" required>
+                <label for="chef-cashApp">CashApp:</label>
+                <input type="text" id="chef-cashApp" name="cashApp" required>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+        <!-- Customer Find Chef Section -->
+        <section id="customer-find-chef-section" class="hidden">
+            <div class="filter-options">
+                <h2>Filter Chefs</h2>
+                <label for="cuisine">Cuisine:</label>
+                <select id="cuisine">
+                    <option value="all">All</option>
+                    <option value="italian">Italian</option>
+                    <option value="chinese">Chinese</option>
+                    <option value="indian">Indian</option>
+                    <option value="mexican">Mexican</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location">
+                <label for="rate">Hourly Rate (Max):</label>
+                <input type="number" id="rate" name="rate">
+                <button onclick="alert('Filtering Chefs')">Filter</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('main > section');
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+
+            const headers = {
+                'home-section': 'Welcome to Your App',
+                'signin-section': 'Sign In',
+                'signup-section': 'Sign Up',
+                'role-section': 'Select Your Role',
+                'chef-signup-section': 'Chef Sign Up',
+                'customer-find-chef-section': 'Find Your Chef'
+            };
+
+            document.getElementById('main-header').innerText = headers[sectionId];
+        }
+
+        // Show the home section by default
+        showSection('home-section');
+    </script>
+</body>
+</html>
